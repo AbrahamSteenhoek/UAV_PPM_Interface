@@ -540,7 +540,7 @@ begin
 
 
 
-        wait;
+        wait for 20ms;
         
     end process DUT_stimulus;
     

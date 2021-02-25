@@ -85,6 +85,15 @@ begin
 
     comb_proc: process( PS, ppm_input_debounced_sig )
     begin
+        -- default
+        NS <= IDLE;
+        write_en_sig <= '0';
+        counter_reset_sig <= '1';
+        counter_inc_sig <= '0';
+        cur_channel_counter_reset_sig <= '1';
+        cur_channel_counter_en_sig <= '0';
+        end_of_frame_sig <= '1';
+
         case PS is
             when IDLE =>
                 write_en_sig <= '0';

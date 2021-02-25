@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<spirit:component xmlns:xilinx="http://www.xilinx.com" xmlns:spirit="http://www.spiritconsortium.org/XMLSchema/SPIRIT/1685-2009" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <spirit:vendor>xilinx.com</spirit:vendor>
+  <spirit:library>user</spirit:library>
+  <spirit:name>ppm_cap</spirit:name>
+  <spirit:version>1.0</spirit:version>
+  <spirit:busInterfaces>
+    <spirit:busInterface>
+      <spirit:name>reset</spirit:name>
+      <spirit:busType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="reset" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="reset_rtl" spirit:version="1.0"/>
+      <spirit:slave/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>RST</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>reset</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>clk</spirit:name>
+      <spirit:busType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="clock" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="clock_rtl" spirit:version="1.0"/>
+      <spirit:slave/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>CLK</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>clk</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+      <spirit:parameters>
+        <spirit:parameter>
+          <spirit:name>ASSOCIATED_RESET</spirit:name>
+          <spirit:value spirit:id="BUSIFPARAM_VALUE.CLK.ASSOCIATED_RESET">reset</spirit:value>
+        </spirit:parameter>
+      </spirit:parameters>
+    </spirit:busInterface>
+  </spirit:busInterfaces>
+  <spirit:model>
+    <spirit:views>
+      <spirit:view>
+        <spirit:name>xilinx_anylanguagesynthesis</spirit:name>
+        <spirit:displayName>Synthesis</spirit:displayName>
+        <spirit:envIdentifier>:vivado.xilinx.com:synthesis</spirit:envIdentifier>
+        <spirit:language>VHDL</spirit:language>
+        <spirit:modelName>ppm_cap</spirit:modelName>
+        <spirit:fileSetRef>
+          <spirit:localName>xilinx_anylanguagesynthesis_view_fileset</spirit:localName>
+        </spirit:fileSetRef>
+        <spirit:parameters>
+          <spirit:parameter>
+            <spirit:name>viewChecksum</spirit:name>
+            <spirit:value>43e32e47</spirit:value>
+          </spirit:parameter>
+        </spirit:parameters>
+      </spirit:view>
+      <spirit:view>
+        <spirit:name>xilinx_anylanguagebehavioralsimulation</spirit:name>
+        <spirit:displayName>Simulation</spirit:displayName>
+        <spirit:envIdentifier>:vivado.xilinx.com:simulation</spirit:envIdentifier>
+        <spirit:language>VHDL</spirit:language>
+        <spirit:modelName>ppm_cap</spirit:modelName>
+        <spirit:fileSetRef>
+          <spirit:localName>xilinx_anylanguagebehavioralsimulation_view_fileset</spirit:localName>
+        </spirit:fileSetRef>
+        <spirit:parameters>
+          <spirit:parameter>
+            <spirit:name>viewChecksum</spirit:name>
+            <spirit:value>43e32e47</spirit:value>
+          </spirit:parameter>
+        </spirit:parameters>
+      </spirit:view>
+      <spirit:view>
+        <spirit:name>xilinx_xpgui</spirit:name>
+        <spirit:displayName>UI Layout</spirit:displayName>
+        <spirit:envIdentifier>:vivado.xilinx.com:xgui.ui</spirit:envIdentifier>
+        <spirit:fileSetRef>
+          <spirit:localName>xilinx_xpgui_view_fileset</spirit:localName>
+        </spirit:fileSetRef>
+        <spirit:parameters>
+          <spirit:parameter>
+            <spirit:name>viewChecksum</spirit:name>
+            <spirit:value>f64a5dae</spirit:value>
+          </spirit:parameter>
+        </spirit:parameters>
+      </spirit:view>
+    </spirit:views>
+    <spirit:ports>
+      <spirit:port>
+        <spirit:name>CLK</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>std_logic</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>RESET</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>std_logic</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>EN</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>std_logic</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>PPM_INPUT</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>std_logic</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>CHANNEL_COUNT</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long">31</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>std_logic_vector</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>CHANNEL</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long">2</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>std_logic_vector</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>WRITE_EN</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>std_logic</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>END_OF_FRAME</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>std_logic</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>Y</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long">1</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>std_logic_vector</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+    </spirit:ports>
+  </spirit:model>
+  <spirit:fileSets>
+    <spirit:fileSet>
+      <spirit:name>xilinx_anylanguagesynthesis_view_fileset</spirit:name>
+      <spirit:file>
+        <spirit:name>shift_register_5bit.vhd</spirit:name>
+        <spirit:fileType>vhdlSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>ppm_capture.vhd</spirit:name>
+        <spirit:fileType>vhdlSource</spirit:fileType>
+        <spirit:userFileType>CHECKSUM_ef41c476</spirit:userFileType>
+      </spirit:file>
+    </spirit:fileSet>
+    <spirit:fileSet>
+      <spirit:name>xilinx_anylanguagebehavioralsimulation_view_fileset</spirit:name>
+      <spirit:file>
+        <spirit:name>shift_register_5bit.vhd</spirit:name>
+        <spirit:fileType>vhdlSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>ppm_capture.vhd</spirit:name>
+        <spirit:fileType>vhdlSource</spirit:fileType>
+      </spirit:file>
+    </spirit:fileSet>
+    <spirit:fileSet>
+      <spirit:name>xilinx_xpgui_view_fileset</spirit:name>
+      <spirit:file>
+        <spirit:name>xgui/ppm_cap_v1_0.tcl</spirit:name>
+        <spirit:fileType>tclSource</spirit:fileType>
+        <spirit:userFileType>CHECKSUM_f64a5dae</spirit:userFileType>
+        <spirit:userFileType>XGUI_VERSION_2</spirit:userFileType>
+      </spirit:file>
+    </spirit:fileSet>
+  </spirit:fileSets>
+  <spirit:description>ppm_cap</spirit:description>
+  <spirit:parameters>
+    <spirit:parameter>
+      <spirit:name>Component_Name</spirit:name>
+      <spirit:value spirit:resolve="user" spirit:id="PARAM_VALUE.Component_Name" spirit:order="1">debounce_shift_reg_5bit_v1_0</spirit:value>
+    </spirit:parameter>
+  </spirit:parameters>
+  <spirit:vendorExtensions>
+    <xilinx:coreExtensions>
+      <xilinx:supportedFamilies>
+        <xilinx:family xilinx:lifeCycle="Production">virtex7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">qvirtex7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">kintex7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">kintex7l</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">qkintex7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">qkintex7l</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">akintex7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">artix7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">artix7l</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">aartix7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">qartix7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">zynq</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">qzynq</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">azynq</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">spartan7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">aspartan7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">virtexu</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">zynquplus</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">virtexuplus</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">virtexuplusHBM</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">virtexuplus58g</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">kintexuplus</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">kintexu</xilinx:family>
+      </xilinx:supportedFamilies>
+      <xilinx:taxonomies>
+        <xilinx:taxonomy>/UserIP</xilinx:taxonomy>
+      </xilinx:taxonomies>
+      <xilinx:displayName>ppm_cap</xilinx:displayName>
+      <xilinx:definitionSource>package_project</xilinx:definitionSource>
+      <xilinx:coreRevision>1</xilinx:coreRevision>
+      <xilinx:upgrades>
+        <xilinx:canUpgradeFrom>xilinx.com:user:debounce_shift_reg_5bit:1.0</xilinx:canUpgradeFrom>
+      </xilinx:upgrades>
+      <xilinx:coreCreationDateTime>2021-02-25T23:12:08Z</xilinx:coreCreationDateTime>
+      <xilinx:tags>
+        <xilinx:tag xilinx:name="nopcore"/>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4e15eeb1_ARCHIVE_LOCATION">z:/MP-1/MP-1_Vivado_trial1/VHDL_sandbox/ppm_cap</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6bc1a099_ARCHIVE_LOCATION">z:/MP-1/MP-1_Vivado_trial1/VHDL_sandbox/ppm_cap</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@489148e6_ARCHIVE_LOCATION">z:/MP-1/MP-1_Vivado_trial1/VHDL_sandbox/ppm_cap</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6d23ef61_ARCHIVE_LOCATION">z:/MP-1/MP-1_Vivado_trial1/VHDL_sandbox/ppm_cap</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4cfe63a9_ARCHIVE_LOCATION">z:/MP-1/MP-1_Vivado_trial1/VHDL_sandbox/ppm_cap</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@134c225_ARCHIVE_LOCATION">z:/MP-1/MP-1_Vivado_trial1/VHDL_sandbox/ppm_cap</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6eb34a1a_ARCHIVE_LOCATION">z:/MP-1/MP-1_Vivado_trial1/VHDL_sandbox/ppm_cap</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3c959a92_ARCHIVE_LOCATION">z:/MP-1/MP-1_Vivado_trial1/VHDL_sandbox/ppm_cap</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@70066e7_ARCHIVE_LOCATION">z:/MP-1/MP-1_Vivado_trial1/VHDL_sandbox/ppm_cap</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@bb685dc_ARCHIVE_LOCATION">z:/MP-1/MP-1_Vivado_trial1/VHDL_sandbox/ppm_cap</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@28ac5d66_ARCHIVE_LOCATION">z:/MP-1/MP-1_Vivado_trial1/VHDL_sandbox/ppm_cap</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@89750a6_ARCHIVE_LOCATION">z:/MP-1/MP-1_Vivado_trial1/VHDL_sandbox/ppm_cap</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@529cd7b7_ARCHIVE_LOCATION">z:/MP-1/MP-1_Vivado_trial1/VHDL_sandbox/ppm_cap</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@714f5017_ARCHIVE_LOCATION">z:/MP-1/MP-1_Vivado_trial1/VHDL_sandbox/ppm_cap</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@75d2aef6_ARCHIVE_LOCATION">z:/MP-1/MP-1_Vivado_trial1/VHDL_sandbox/ppm_cap</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@55bd42ea_ARCHIVE_LOCATION">z:/MP-1/MP-1_Vivado_trial1/VHDL_sandbox/ppm_cap</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6a441148_ARCHIVE_LOCATION">z:/MP-1/MP-1_Vivado_trial1/VHDL_sandbox/ppm_cap</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@76134d8c_ARCHIVE_LOCATION">z:/MP-1/MP-1_Vivado_trial1/VHDL_sandbox/ppm_cap</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@39e4d3b5_ARCHIVE_LOCATION">z:/MP-1/MP-1_Vivado_trial1/VHDL_sandbox/ppm_cap</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6dd63372_ARCHIVE_LOCATION">z:/MP-1/MP-1_Vivado_trial1/VHDL_sandbox/ppm_cap</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@18705afc_ARCHIVE_LOCATION">z:/MP-1/MP-1_Vivado_trial1/VHDL_sandbox/ppm_cap</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@59ebfbdc_ARCHIVE_LOCATION">z:/MP-1/MP-1_Vivado_trial1/VHDL_sandbox/ppm_cap</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@62df7767_ARCHIVE_LOCATION">z:/MP-1/MP-1_Vivado_trial1/VHDL_sandbox/ppm_cap</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@363c02d2_ARCHIVE_LOCATION">z:/MP-1/MP-1_Vivado_trial1/VHDL_sandbox/ppm_cap</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@43005574_ARCHIVE_LOCATION">z:/MP-1/MP-1_Vivado_trial1/VHDL_sandbox/ppm_cap</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@c3cdac7_ARCHIVE_LOCATION">z:/MP-1/MP-1_Vivado_trial1/VHDL_sandbox/ppm_cap</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3f6ee783_ARCHIVE_LOCATION">z:/MP-1/MP-1_Vivado_trial1/VHDL_sandbox/ppm_cap</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2b6baf0_ARCHIVE_LOCATION">z:/MP-1/MP-1_Vivado_trial1/VHDL_sandbox/ppm_cap</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@29dca3c0_ARCHIVE_LOCATION">z:/MP-1/MP-1_Vivado_trial1/VHDL_sandbox/ppm_cap</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@e043b1b_ARCHIVE_LOCATION">z:/MP-1/MP-1_Vivado_trial1/VHDL_sandbox/ppm_cap</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@d3e00fd_ARCHIVE_LOCATION">z:/MP-1/MP-1_Vivado_trial1/VHDL_sandbox/ppm_cap</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4346ab83_ARCHIVE_LOCATION">z:/MP-1/MP-1_Vivado_trial1/VHDL_sandbox/ppm_cap</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4abf3eac_ARCHIVE_LOCATION">z:/MP-1/MP-1_Vivado_trial1/VHDL_sandbox/ppm_cap</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6366b572_ARCHIVE_LOCATION">z:/MP-1/MP-1_Vivado_trial1/VHDL_sandbox/ppm_cap</xilinx:tag>
+      </xilinx:tags>
+    </xilinx:coreExtensions>
+    <xilinx:packagingInfo>
+      <xilinx:xilinxVersion>2020.1</xilinx:xilinxVersion>
+      <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="50102c5c"/>
+      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="8407322c"/>
+      <xilinx:checksum xilinx:scope="ports" xilinx:value="37dc918b"/>
+      <xilinx:checksum xilinx:scope="parameters" xilinx:value="2d11d86c"/>
+    </xilinx:packagingInfo>
+  </spirit:vendorExtensions>
+</spirit:component>
