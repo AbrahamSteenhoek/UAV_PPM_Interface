@@ -16,18 +16,31 @@ entity ppm_cap is
 end ppm_cap;
 
 architecture behavior of ppm_cap is
+
+    component shift_register_5bit is
+        port(
+            clk : in std_logic;
+            reset : in std_logic;
+            load : in std_logic;
+            sin: in std_logic;
+            d : in std_logic_vector(5-1 downto 0);
+            q : out std_logic_vector(5-1 downto 0);
+            sout: out std_logic);
+    end component;
     -- IDLE: All channels have finished transmitting. Waiting for start of next frame
     -- NEW_CHANNEL_PULSE: New channel has begun transmitting, which is signaled with a 400us pulse
     -- CHANNEL_TRANSMITTING: Pulse indicating new channel is over, but channel is still transmitting
     type state_type is ( CHANNEL_TRANSMITTING, NEW_CHANNEL_PULSE, IDLE );
 
-    signal PS, NS, PrevS, PPrev : state_type;
+    constant channel_counter_dur_rst_val : std_logic_vector( 31 downto 0 ) := x"6";
+    constant HIGH : std_logic_vector( 4 downto 0 ) := "11111";
+    constant LOW : std_logic_vector( 4 downto 0 ) := "00000";
+
+    signal PS, NS, PrevS : state_type;
 
     signal cur_channel_sig : std_logic_vector( 2 downto 0 ) := "000";
     signal cur_channel_counter_reset_sig : std_logic := '1';
     signal cur_channel_counter_en_sig : std_logic := '0';
-
-    signal cur_channel_sig2 : std_logic_vector( 2 downto 0 ) := "000";
 
     signal write_en_sig : std_logic := '0';
     signal end_of_frame_sig : std_logic := '0';
@@ -35,7 +48,24 @@ architecture behavior of ppm_cap is
     signal counter_reset_sig : std_logic := '1';
     signal counter_inc_sig : std_logic := '0';
     signal channel_count_sig : std_logic_vector( 31 downto 0 ) := x"00000000";
+
+    signal debounce_load_sig : std_logic := '0';
+    signal debounce_load_val_sig : std_logic_vector( 4 downto 0 ) := "00000";
+    signal ppm_input_debounced_sig : std_logic_vector( 4 downto 0 );
+    signal sout_sig : std_logic;
 begin
+
+    ppm_input_debounce: shift_register_5bit
+    port map(
+        clk => CLK,
+        reset => RESET,
+        load => debounce_load_sig,
+        sin => PPM_INPUT,
+        d => debounce_load_val_sig,
+        q => ppm_input_debounced_sig,
+        sout => sout_sig
+    );
+
     CHANNEL_COUNT <= channel_count_sig;
     CHANNEL <= cur_channel_sig;
     WRITE_EN <= write_en_sig;
@@ -45,13 +75,9 @@ begin
     begin
         if ( RESET = '1' ) then
             PS <= IDLE;
-
-            -- cur_channel_sig <= (others => '0');
         elsif ( rising_edge( CLK ) and EN = '1' ) then
-            PPrev <= PrevS;
             PrevS <= PS;
             PS <= NS;
-
         end if;
     end process sync_proc;
 
@@ -66,10 +92,8 @@ begin
                 cur_channel_counter_en_sig <= '0';
                 end_of_frame_sig <= '1';
 
-                if ( PPM_INPUT = '0' ) then
+                if ( PPM_INPUT = '0' and cur_channel_sig < x"5" ) then
                     NS <= NEW_CHANNEL_PULSE;
-                    
-                    -- cur_channel_sig <= (others => '0');
                 else
                     NS <= IDLE;
                 end if;
@@ -112,7 +136,7 @@ begin
                 end if;
 
             when others =>
-                NS <= IDLE; cur_channel_sig <= (others => '0'); counter_reset_sig <= '1'; write_en_sig <= '0'; counter_inc_sig <= '0';
+                NS <= IDLE; counter_reset_sig <= '1'; write_en_sig <= '0'; counter_inc_sig <= '0';
         end case; 
     end process comb_proc;
 
@@ -121,9 +145,8 @@ begin
         if( cur_channel_counter_reset_sig = '1' ) then
             cur_channel_sig <= (others => '0');
         elsif( rising_edge( CLK ) and cur_channel_counter_en_sig = '1' ) then
-            if ( PS = NEW_CHANNEL_PULSE and PPrevS = CHANNEL_TRANSMITTING ) then
-                cur_channel_sig <= cur_channel_sig + 1;
-                -- cur_channel_sig2 <= cur_channel_sig2 + '1';
+            if ( PS = NEW_CHANNEL_PULSE and PrevS = CHANNEL_TRANSMITTING ) then
+                cur_channel_sig <= cur_channel_sig + '1';
             end if;
         end if;
     end process cur_channel_counter_proc;
@@ -133,9 +156,7 @@ begin
         if ( counter_reset_sig = '1' ) then
             channel_count_sig <= (others => '0');
         elsif( rising_edge( CLK ) and counter_inc_sig = '1' ) then
-            -- channel_count_sig <= std_logic_vector( unsigned(channel_count_sig) + '1' );
             channel_count_sig <= channel_count_sig + '1';
-            cur_channel_sig2 <= cur_channel_sig2 + '1';
         end if;
     end process counter_proc;
 
