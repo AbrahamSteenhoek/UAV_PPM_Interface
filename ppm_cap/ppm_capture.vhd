@@ -32,7 +32,9 @@ architecture behavior of ppm_cap is
     -- CHANNEL_TRANSMITTING: Pulse indicating new channel is over, but channel is still transmitting
     type state_type is ( CHANNEL_TRANSMITTING, NEW_CHANNEL_PULSE, IDLE );
 
-    constant channel_counter_dur_rst_val : std_logic_vector( 31 downto 0 ) := x"00000006";
+    -- add the length of the debounce to the channel duration counter to account
+    -- for the missed cycles while waiting for debounce
+    constant channel_counter_rst_val : std_logic_vector( 31 downto 0 ) := x"00000005";
     constant HIGH : std_logic_vector( 4 downto 0 ) := "11111";
     constant LOW : std_logic_vector( 4 downto 0 ) := "00000";
 
@@ -81,7 +83,7 @@ begin
         end if;
     end process sync_proc;
 
-    comb_proc: process( PS, PPM_INPUT )
+    comb_proc: process( PS, ppm_input_debounced_sig )
     begin
         case PS is
             when IDLE =>
@@ -92,7 +94,7 @@ begin
                 cur_channel_counter_en_sig <= '0';
                 end_of_frame_sig <= '1';
 
-                if ( PPM_INPUT = '0' and cur_channel_sig < x"5" ) then
+                if ( ppm_input_debounced_sig = LOW and cur_channel_sig < x"5" ) then
                     NS <= NEW_CHANNEL_PULSE;
                 else
                     NS <= IDLE;
@@ -106,7 +108,7 @@ begin
                 cur_channel_counter_en_sig <= '1';
                 end_of_frame_sig <= '0';
 
-                if ( PPM_INPUT = '1' ) then
+                if ( ppm_input_debounced_sig = HIGH ) then
                     NS <= CHANNEL_TRANSMITTING; -- pulse is over but channel is still transmitting
                 else
                     NS <= NEW_CHANNEL_PULSE; -- pulse is still going
@@ -122,7 +124,7 @@ begin
 
                 end_of_frame_sig <= '0';
 
-                if ( PPM_INPUT = '0' ) then
+                if ( ppm_input_debounced_sig = LOW ) then
 
                     if ( cur_channel_sig < x"5" ) then
                         NS <= NEW_CHANNEL_PULSE;
@@ -154,7 +156,8 @@ begin
     counter_proc: process( CLK, counter_reset_sig )
     begin
         if ( counter_reset_sig = '1' ) then
-            channel_count_sig <= (others => '0');
+            -- channel_count_sig <= (others => '0');
+            channel_count_sig <= channel_counter_rst_val;
         elsif( rising_edge( CLK ) and counter_inc_sig = '1' ) then
             channel_count_sig <= channel_count_sig + '1';
         end if;
