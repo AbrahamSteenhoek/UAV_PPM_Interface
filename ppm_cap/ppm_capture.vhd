@@ -34,7 +34,7 @@ architecture behavior of ppm_cap is
 
     -- add the length of the debounce to the channel duration counter to account
     -- for the missed cycles while waiting for debounce
-    constant CHANNEL_COUNTER_RST_VAL : std_logic_vector( 31 downto 0 ) := x"00000005";
+    constant CHANNEL_COUNTER_RST_VAL : std_logic_vector( 31 downto 0 ) := x"00000000";--x"00000005";
     constant MAX_CHANNEL_DURATION : std_logic_vector( 31 downto 0 ) := x"0003D090";
     -- constant MAX_CHANNEL_DURATION : std_logic_vector( 31 downto 0 ) := x"0000F000";
     constant HIGH : std_logic_vector( 4 downto 0 ) := "11111";
@@ -119,6 +119,10 @@ begin
                 cur_channel_counter_en_sig <= '1';
                 end_of_frame_sig <= '0';
 
+                if ( PrevS = CHANNEL_TRANSMITTING ) then
+                    counter_reset_sig <= '1'; -- move counter reset here so that channel cycle counter resets at the same time that the current channel counter increments
+                end if;
+
                 if ( ppm_input_debounced_sig = HIGH ) then
                     NS <= CHANNEL_TRANSMITTING; -- pulse is over but channel is still transmitting
                 else
@@ -137,7 +141,7 @@ begin
 
                 if ( ppm_input_debounced_sig = LOW ) then
                     NS <= NEW_CHANNEL_PULSE;
-                    counter_reset_sig <= '1';
+                    -- counter_reset_sig <= '1';
                 else
                     if ( ( channel_count_sig > MAX_CHANNEL_DURATION ) ) then
                         NS <= IDLE;
