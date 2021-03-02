@@ -493,17 +493,18 @@ begin
         i_ppm_input <= '0';
 
         i_ppm_input <= '0';
+        -- this is the idle pulse. generator is still transmitting
         wait for pulse_width;
         assert(o_channel_count = channel_counter_rst_val)
-        report "ASSERT FAILED: IDLE pulse test - channel_count" severity error;
-        assert( o_channel = x"0" )
-        report "ASSERT FAILED: IDLE pulse test - cur_channel" severity error;
-        assert( o_write_en = '0' )
-        report "ASSERT FAILED: IDLE pulse test - write_en" severity error;
-        assert( o_end_of_frame = '1' )
-        report "ASSERT FAILED: IDLE pulse test - end_of_frame" severity error;
-        assert(o_ppm_cap_cur_state = IDLE )
-        report "ASSERT FAILED: IDLE pulse test - cur_state" severity error;
+        report "ASSERT FAILED: IDLE1 pulse test - channel_count" severity error;
+        assert( o_channel = x"6" )
+        report "ASSERT FAILED: IDLE1 pulse test - cur_channel" severity error;
+        assert( o_write_en = '1' )
+        report "ASSERT FAILED: IDLE1 pulse test - write_en" severity error;
+        assert( o_end_of_frame = '0' )
+        report "ASSERT FAILED: IDLE1 pulse test - end_of_frame" severity error;
+        assert(o_ppm_cap_cur_state = NEW_CHANNEL_PULSE )
+        report "ASSERT FAILED: IDLE1 pulse test - cur_state" severity error;
 
         -- IDLE duration
         -- add a bounce in the signal (pulse is done)
@@ -526,18 +527,29 @@ begin
         i_ppm_input <= '1';
 
         i_ppm_input <= '1';
-        wait for 975us;
-        assert(o_channel_count = channel_counter_rst_val)
-        report "ASSERT FAILED: IDLE duration test - channel_count" severity error;
-        assert( o_channel = x"0" )
-        report "ASSERT FAILED: IDLE duration test - cur_channel" severity error;
-        assert( o_write_en = '0' )
-        report "ASSERT FAILED: IDLE duration test - write_en" severity error;
-        assert( o_end_of_frame = '1' )
-        report "ASSERT FAILED: IDLE duration test - end_of_frame" severity error;
-        assert(o_ppm_cap_cur_state = IDLE )
-        report "ASSERT FAILED: IDLE duration test - cur_state" severity error;
+        -- idle pulse is over. waiting for max channel time
+        wait for 100us;
+        -- assert(o_channel_count = channel_counter_rst_val)
+        -- report "ASSERT FAILED: IDLE duration test - channel_count" severity error;
+        assert( o_channel = x"6" )
+        report "ASSERT FAILED: IDLE1 duration test - cur_channel" severity error;
+        assert( o_write_en = '1' )
+        report "ASSERT FAILED: IDLE1 duration test - write_en" severity error;
+        assert( o_end_of_frame = '0' )
+        report "ASSERT FAILED: IDLE1 duration test - end_of_frame" severity error;
+        assert(o_ppm_cap_cur_state = CHANNEL_TRANSMITTING )
+        report "ASSERT FAILED: IDLE1 duration test - cur_state" severity error;
 
+        -- max channel time (2500us) is over, should transition to IDLE
+        wait for 2010us;
+        assert( o_channel = x"0" )
+        report "ASSERT FAILED: IDLE2 test - cur_channel" severity error;
+        assert( o_write_en = '0' )
+        report "ASSERT FAILED: IDLE2 test - write_en" severity error;
+        assert( o_end_of_frame = '1' )
+        report "ASSERT FAILED: IDLE2 test - end_of_frame" severity error;
+        assert(o_ppm_cap_cur_state = IDLE )
+        report "ASSERT FAILED: IDLE2 test - cur_state" severity error;
 
 
         wait for 20ms;
