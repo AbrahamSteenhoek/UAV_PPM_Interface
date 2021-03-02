@@ -36,7 +36,6 @@ architecture behavior of ppm_cap is
     -- for the missed cycles while waiting for debounce
     constant CHANNEL_COUNTER_RST_VAL : std_logic_vector( 31 downto 0 ) := x"00000000";--x"00000005";
     constant MAX_CHANNEL_DURATION : std_logic_vector( 31 downto 0 ) := x"0003D090";
-    -- constant MAX_CHANNEL_DURATION : std_logic_vector( 31 downto 0 ) := x"0000F000";
     constant HIGH : std_logic_vector( 4 downto 0 ) := "11111";
     constant LOW : std_logic_vector( 4 downto 0 ) := "00000";
 
@@ -90,7 +89,6 @@ begin
         -- default
         NS <= IDLE;
         write_en_sig <= '0';
-        counter_reset_sig <= '1';
         counter_inc_sig <= '0';
         cur_channel_counter_reset_sig <= '1';
         cur_channel_counter_en_sig <= '0';
@@ -99,7 +97,6 @@ begin
         case PS is
             when IDLE =>
                 write_en_sig <= '0';
-                counter_reset_sig <= '1';
                 counter_inc_sig <= '0';
                 cur_channel_counter_reset_sig <= '1';
                 cur_channel_counter_en_sig <= '0';
@@ -113,15 +110,10 @@ begin
             
             when NEW_CHANNEL_PULSE =>
                 write_en_sig <= '1';
-                counter_reset_sig <= '0';
                 counter_inc_sig <= '1'; -- start counting cycles for next channel
                 cur_channel_counter_reset_sig <= '0';
                 cur_channel_counter_en_sig <= '1';
                 end_of_frame_sig <= '0';
-
-                if ( PrevS = CHANNEL_TRANSMITTING ) then
-                    counter_reset_sig <= '1'; -- move counter reset here so that channel cycle counter resets at the same time that the current channel counter increments
-                end if;
 
                 if ( ppm_input_debounced_sig = HIGH ) then
                     NS <= CHANNEL_TRANSMITTING; -- pulse is over but channel is still transmitting
@@ -131,7 +123,6 @@ begin
 
             when CHANNEL_TRANSMITTING =>
                 write_en_sig <= '1';
-                counter_reset_sig <= '0';
                 counter_inc_sig <= '1'; -- keep counting cycles while channel is transmitting
 
                 cur_channel_counter_reset_sig <= '0';
@@ -141,7 +132,6 @@ begin
 
                 if ( ppm_input_debounced_sig = LOW ) then
                     NS <= NEW_CHANNEL_PULSE;
-                    -- counter_reset_sig <= '1';
                 else
                     if ( ( channel_count_sig > MAX_CHANNEL_DURATION ) ) then
                         NS <= IDLE;
@@ -151,17 +141,24 @@ begin
                 end if;
 
             when others =>
-                NS <= IDLE; counter_reset_sig <= '1'; write_en_sig <= '0'; counter_inc_sig <= '0';
+                NS <= IDLE; write_en_sig <= '0'; counter_inc_sig <= '0'; --counter_reset_sig <= '1'; w
         end case; 
     end process comb_proc;
 
     cur_channel_counter_proc: process( CLK, cur_channel_counter_reset_sig )
     begin
         if( cur_channel_counter_reset_sig = '1' ) then
+            counter_reset_sig <= '1';
+
             cur_channel_sig <= (others => '0');
         elsif( rising_edge( CLK ) and cur_channel_counter_en_sig = '1' ) then
             if ( PS = NEW_CHANNEL_PULSE and PrevS = CHANNEL_TRANSMITTING ) then
                 cur_channel_sig <= cur_channel_sig + '1';
+                
+                -- reset channel cycle counter at the same time that current channel increments
+                counter_reset_sig <= '1';
+            else
+                counter_reset_sig <= '0';
             end if;
         end if;
     end process cur_channel_counter_proc;
@@ -169,7 +166,6 @@ begin
     counter_proc: process( CLK, counter_reset_sig )
     begin
         if ( counter_reset_sig = '1' ) then
-            -- channel_count_sig <= (others => '0');
             channel_count_sig <= CHANNEL_COUNTER_RST_VAL;
         elsif( rising_edge( CLK ) and counter_inc_sig = '1' ) then
             channel_count_sig <= channel_count_sig + '1';
