@@ -20,13 +20,13 @@ end down_counter_32bit_6reg;
 architecture rtl of down_counter_32bit_6reg is
 	signal count_s : std_logic_vector(32-1 downto 0);
 begin
-	process(clk, reset, count_enable)
+	process(clk, reset, load, count_enable, reg_sel, reg_0, reg_1, reg_2, reg_3, reg_4, reg_5)
 	begin
 	if(reset = '1') then
 		count_s <= (others => '0');
 		empty <= '0';
 	elsif (rising_edge(clk)) then
-		if (count_enable = '1' AND count_s /= x"00000000") then
+		if (count_enable = '1' AND count_s > x"00009c40") then
 			count_s <= count_s - 1;
 		elsif(load = '1') then
 			case reg_sel is
@@ -43,10 +43,10 @@ begin
 				when "101" => 
 					count_s <= reg_5;
 				when others =>
-					count_s <= x"00000000";
+					count_s <= x"00009c40";
 			end case;
 		end if;
-		if (count_s = x"00000000") then
+		if (count_s <= x"00009c40") then
 			empty <= '1';
 		else
 			empty <= '0';

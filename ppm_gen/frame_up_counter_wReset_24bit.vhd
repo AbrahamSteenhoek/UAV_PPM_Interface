@@ -13,7 +13,6 @@ entity frame_up_counter_wReset_24bit is
 	port(clk : in std_logic;
 		reset : in std_logic;
 		enable : in std_logic;
-		channel
 		count : out std_logic_vector(24-1 downto 0);
 		count_trigger : out std_logic);
 end frame_up_counter_wReset_24bit;
