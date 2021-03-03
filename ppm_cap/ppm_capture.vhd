@@ -17,16 +17,16 @@ end ppm_cap;
 
 architecture behavior of ppm_cap is
 
-    component shift_register_5bit is
+    entity shift_register_64bit is
         port(
             clk : in std_logic;
             reset : in std_logic;
             load : in std_logic;
             sin: in std_logic;
-            d : in std_logic_vector(5-1 downto 0);
-            q : out std_logic_vector(5-1 downto 0);
+            d : in std_logic_vector(64-1 downto 0);
+            q : out std_logic_vector(64-1 downto 0);
             sout: out std_logic);
-    end component;
+    end entity;
     -- IDLE: All channels have finished transmitting. Waiting for start of next frame
     -- NEW_CHANNEL_PULSE: New channel has begun transmitting, which is signaled with a 400us pulse
     -- CHANNEL_TRANSMITTING: Pulse indicating new channel is over, but channel is still transmitting
@@ -36,8 +36,10 @@ architecture behavior of ppm_cap is
     -- for the missed cycles while waiting for debounce
     constant CHANNEL_COUNTER_RST_VAL : std_logic_vector( 31 downto 0 ) := x"00000000";--x"00000005";
     constant MAX_CHANNEL_DURATION : std_logic_vector( 31 downto 0 ) := x"0003D090";
-    constant HIGH : std_logic_vector( 4 downto 0 ) := "11111";
-    constant LOW : std_logic_vector( 4 downto 0 ) := "00000";
+    constant HIGH : std_logic_vector( 64 downto 0 ) := x"FFFFFFFFFFFFFFFF";
+    -- constant HIGH : std_logic_vector( 4 downto 0 ) := "11111";
+    constant LOW : std_logic_vector( 64 downto 0 ) := x"0000000000000000";
+    -- constant LOW : std_logic_vector( 4 downto 0 ) := "00000";
 
     signal PS, NS, PrevS : state_type;
 
