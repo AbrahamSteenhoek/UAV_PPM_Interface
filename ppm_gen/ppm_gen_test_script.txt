@@ -1,0 +1,16 @@
+force -drive sim:/ppm_gen/RESET 1 0
+force -drive sim:/ppm_gen/EN 0 0
+force -freeze sim:/ppm_gen/CLK 1 0, 0 {5 ns} -r 10
+run 1 ms
+force -drive sim:/ppm_gen/RESET 0 0
+force -drive sim:/ppm_gen/EN 1 0
+
+
+force -drive sim:/ppm_gen/REG0 32'h000fffff 0
+force -drive sim:/ppm_gen/REG1 32'h000fffff 0
+force -drive sim:/ppm_gen/REG2 32'h000fffff 0
+force -drive sim:/ppm_gen/REG3 32'h000fffff 0
+force -drive sim:/ppm_gen/REG4 32'h000fffff 0
+force -drive sim:/ppm_gen/REG5 32'h000fffff 0
+
+run
